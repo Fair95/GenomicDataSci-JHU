@@ -5,13 +5,17 @@ It is not possible to sort a dictionary, only to get a representation of a dicti
 
 For instance,  
 
-`import operator  
+```python
+import operator  
 x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}  
 sorted_x = sorted(x.items(), key=operator.itemgetter(1))  
-sorted_x will be a list of tuples sorted by the second element in each tuple. dict(sorted_x) == x.`
+```
+sorted_x will be a list of tuples sorted by the second element in each tuple. dict(sorted_x) == x.
 
 And for those wishing to sort on keys instead of values:
 
-`import operator
+```python
+import operator
 x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
-sorted_x = sorted(x.items(), key=operator.itemgetter(0))`
+sorted_x = sorted(x.items(), key=operator.itemgetter(0))
+```
