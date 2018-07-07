@@ -20,3 +20,23 @@ import operator
 x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
 sorted_x = sorted(x.items(), key=operator.itemgetter(0))
 ```
+
+## Algorithms in Genomic Data Science
+### Naive matching
+```python
+def naive(p, t):
+    occurrences = []
+    for i in range(len(t) - len(p) + 1):  # loop over alignments
+        match = True
+        for j in range(len(p)):  # loop over characters
+            if t[i+j] != p[j]:  # compare characters
+                match = False
+                break
+        if match:
+            occurrences.append(i)  # all chars matched; record
+    return occurrences
+```
+Lets say y is the length of reference genome, x is the length of the reads  
+The maximum number of comparison would be **x\times(y-x+1)** times  
+The minimum number of comparison would be **y-x+1** times  
+This algorithm tends to have number of comparisons closer to minimum 
