@@ -37,6 +37,6 @@ def naive(p, t):
     return occurrences
 ```
 Lets say y is the length of reference genome, x is the length of the reads  
-The maximum number of comparison would be **x\times(y-x+1)** times  
-The minimum number of comparison would be **y-x+1** times  
+The maximum number of comparison would be <font color = #0099ff> **x(y-x+1)** </font> times  
+The minimum number of comparison would be <font color = #0099ff> **y-x+1**</font> times  
 This algorithm tends to have number of comparisons closer to minimum 
