@@ -49,7 +49,7 @@ def findGCByPos(reads,length):
 	import matplotlib.pyplot as plt
 	plt.plot(range(len(gc)),gc)
 	plt.show()
-def countBases(seqs)
+def countBases(seqs):
 	import collections
 	count = collections.Counter()
 	for seq in seqs:

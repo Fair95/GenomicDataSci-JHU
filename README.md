@@ -39,4 +39,19 @@ def naive(p, t):
 Lets say y is the length of reference genome, x is the length of the reads:  
 1. The maximum number of comparison would be **x(y-x+1)** times  
 2. The minimum number of comparison would be **y-x+1** times  
-3. This algorithm tends to have number of comparisons closer to minimum 
+3. This algorithm tends to have number of comparisons closer to minimum
+
+### Boyer-Moore
+Matching from left-to-right of the pattern and skip the maximum of either:  
+1. Bad character rule: Upon mismatch, skip alignments until: 
+  a) mismatch becomes a match, or  
+  b) **p** moves past mismatched character
+2. Good suffix rule: Let **t** = substring matched by inner loop; skip until:  
+  a) there are no mismatches between **p** and **t** or  
+  b) **p** moves past **t**  
+3. naive matching (i.e. 1)
+
+### Preprocessing
+For a given pattern **p** and a given reference text **T**, pre-processing **p**, we can use the same pre-processed result for different **T**, samewise, we can use the same pre-processed result derived from **T** to test many different given **p**    
+if an algorithm pre-processes **T**, then it is an ***Offline algorithm***  
+Otherwise, it is an ***Online algorithm***
