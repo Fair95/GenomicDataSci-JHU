@@ -74,5 +74,5 @@ hamming distance = minimum # substitutions needed to turn one into the other.
 For *X* & *Y*,  
 edit distance = minimum # edits (substitutions, insertions, deletions) needed to turn one into the other
 
-If len(*X*) != len(*Y*), the minimum of Edit distance is ||*X*| - |*Y*||, i.e. editDistance(*X*,*Y*) \ge ||*X*| - |*Y*||
+If len(*X*) != len(*Y*), the minimum of Edit distance is ||*X*| - |*Y*||, i.e. $$editDistance(*X*,*Y*) \ge ||*X*| - |*Y*||$$
 
