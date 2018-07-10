@@ -43,7 +43,7 @@ Lets say y is the length of reference genome, x is the length of the reads:
 
 ### Boyer-Moore
 Matching from left-to-right of the pattern and skip the maximum of either:  
-1. Bad character rule: Upon mismatch, skip alignments until: 
+1. Bad character rule: Upon mismatch, skip alignments until:  
   a) mismatch becomes a match, or  
   b) **p** moves past mismatched character
 2. Good suffix rule: Let **t** = substring matched by inner loop; skip until:  
@@ -54,4 +54,21 @@ Matching from left-to-right of the pattern and skip the maximum of either:
 ### Preprocessing
 For a given pattern **p** and a given reference text **T**, pre-processing **p**, we can use the same pre-processed result for different **T**, samewise, we can use the same pre-processed result derived from **T** to test many different given **p**    
 if an algorithm pre-processes **T**, then it is an ***Offline algorithm***  
-Otherwise, it is an ***Online algorithm***
+Otherwise, it is an ***Online algorithm***, Boyer-Moore is an ***Online*** algorithm
+
+### kmer indexing
+k-mer: substring of length k  
+Indexing DNA: Constructing an index which contain every possible k-mer substring in DNA **T** with its left-most offset associated.  
+Quering index: Quering the any k-mer substring in pattern **p**, if we find one matching, we call it a hit which indicates there may be a matching around the region containing the substring.  
+Verification: Chech the rest bases of the pattern matching or not.  
+*Note kmer indexing is an offline algorithm (preprocessing **T**).*
+
+### Distance
+#### Hamming distance
+For *X* & *Y* where |*X*| = |*Y*|,  
+hamming distance = minimum # substitutions needed to turn one into the other.
+
+#### Edit distance
+For *X* & *Y*,  
+edit distance = minimum # edits (substitutions, insertions, deletions) needed to turn one into the other
+
