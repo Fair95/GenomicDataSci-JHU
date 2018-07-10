@@ -1,5 +1,7 @@
 # This is the Coursera course offered by JHU for Genomic Data Science
 
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
 ## Python in Genomic Data Science
 ### How to sort a dirtionary in Python
 It is not possible to sort a dictionary, only to get a representation of a dictionary that is sorted. Dictionaries are inherently orderless, but other types, such as lists and tuples, are not. So you need an ordered data type to represent sorted values, which will be a list—probably a list of tuples.  
@@ -71,4 +73,6 @@ hamming distance = minimum # substitutions needed to turn one into the other.
 #### Edit distance
 For *X* & *Y*,  
 edit distance = minimum # edits (substitutions, insertions, deletions) needed to turn one into the other
+
+If len(*X*) != len(*Y*), the minimum of Edit distance is ||*X*| - |*Y*||, i.e. editDistance(*X*,*Y*) \ge ||*X*| - |*Y*||
 

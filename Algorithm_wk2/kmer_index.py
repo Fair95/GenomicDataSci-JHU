@@ -82,9 +82,11 @@ def querySubseqIndex(p,t,index):
 	ival = index.ival
 	offsets = set()
 	total_hits = 0
+	## do ival times query
 	for i in range(ival):
 		hits = index.query(p[i:])
 		total_hits += len(hits)
+		# shift p each time by 1 to include all modules 
 		for j in index.query(p[i:]):
 			if HammingDistance(p,t[j-i:j-i+len(p)])<=2:
 				offsets.add(j-i)
