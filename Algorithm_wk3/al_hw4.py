@@ -43,6 +43,6 @@ print 'Q1: length of the scs is %d' % len(scs(ss))
 print 'Q2: # of different scs is %d' % len(scs_list(ss))
 
 reads,quals = readFASTQ('ads1_week4_reads.fq')
-assemble = greedy_scs_2(reads,10)
+assemble = greedy_scs_optimized(reads,10)
 print assemble.count('A')
 print assemble.count('T')

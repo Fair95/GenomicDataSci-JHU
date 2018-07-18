@@ -188,3 +188,153 @@ To reconstruct the sequence of the assemble, just walk through the nodes along t
 
 ## Possible Improvement
 1. Increase the number of k in k-mers in order to contain the repeated patterns with unique patterns surrounded. (pair-end sequence)
+
+## CommandLine tools for Genomic Data Science
+### Unix Basic
+1. more/less: read file content
+2. diff/comm: compare file content
+3. gzip/gunzip bzip2/bunzip2 tar -cvf/tar -xvf: zip/uzip and achive files
+4. cut/sort/grep/wc: quering file content
+5. cat/vim: modify file content
+
+## Sequences Representation Format
+Genome annotation = determine the precise location and structure (intervals, or lists of intervals, and associated biological information) of genomic features along the genome
+
+### BED (Browser Extensible Data) format (0-based coordinates)
+#### Basic format
+*chr* *start* *end* ---- 3 columns
+#### Extended format:
+*chr* *start* *end* *end* *name* *score* *strand* *thick_start* *thick_end* *rgb* *Block count* *Block size* *Block start* ---- 12 columns   
+
+0-based coordinates: A|C|A|G|C|T|A  
+					0 1 2 3 4 5 6 7
+1-based coordinates: 1 2 3 4 5 6 7
+### GTF (Genomic Transfer Format)
+*chr* *program* *feature* *start* *end* *strand* *frame* *gene_id*; *transcript_id* ---- 9 columns
+
+* each interval feature taks one line
+* Column 9 can have additional attributes
+* Columns 1-9 separated by tab '\t'; fields within column 9 seperated by space ' '
+* Coordinates are 1-based
+
+### GFF (Genomic Feature Format)
+*chr* *source* *feature* *start* *end* *strand* *frame* *ID*; (*Name* or *Parent*) ---- 9 columns
+
+### SAM/BEM (Representation for alignments)
+#### Header
+@HD: header: VN:version SO:sorted or not
+@SQ: sequences: SN:chr_id LN:length
+@PG: program: ID:program_name VN:version CL:commanline used for parameter setting
+
+#### Alignments:
+1. Read id
+2. **Flag**
+3. Chr
+4. Start
+5. Mapping quality
+6. **CIGAR(alignment)**
+7. Mate chr (=: same chr, * : not mapped, or the name of the chr which the mate located)
+8. Mate start
+9. Mate dist
+10. Query seq
+11. Query base quals
+12. Alignment score (eg. AS:i:0)
+13. Edit distance to reference (e.g. NM:i:0)
+14. Number of hits (e.g. NH:i:10)
+15. Strand (e.g. XS:A:-)
+16. Hit index for this alignment (HI:i:0)  
+
+##### Flag
+* multiple segments (mates)
+* each segment properly aligned
+* segment **unmapped**
+* next segment **unmapped**
+  
+* SEQ is reverse complemented in the alignment
+* SEQ of next segment is reverse complemented
+* first segment (mate)
+* last segment (mate)
+  
+* secondary alignment
+* **not** passing quality checks
+* PCR or optical duplicate
+* supplementary alignment
+  
+***Note: CONVER TO BINARY DIGITS THEN READ FROM RIGHT TO LEFT***, e.g. 0000 0110 0011 => 1100 0110 0000  
+
+Tags: A = character, i = integer, f = float, Z = string, H = hex string
+##### CIGAR
+* M: match (sequence match **or substitution**)
+* I: insertion to the reference
+* D: deletion from the reference
+* N: skipped region (intro)
+* S: soft clipping (sequence start or end not aligned -> seq appears in SEQ)
+* H: hard clipping (seq not in SEQ)
+* P: padding first segment
+* =: sequence match
+* X: sequence mismatch
+
+#### mpileup format
+*chr* *pos* *ref* *nrds(depth)* ***bases*** *quals* *(optional)readpos*  ---- 6-7 columns
+
+***bases
+1. * : match, forward
+2. , : mismatch, reverse
+3. T : mismatch (to T), forward
+4. t : mismatch (to T), reverse
+5. ^ : beginning of read
+6. $ : end of read
+7. +[0-9]+[ACGTNacgtn]+ insertion in the reference(e.g. +3ACC)
+8. -[0-9]+[ACGTNacgtn]+ deletion in the reference(e.g. -2GG)
+9. > : reference skip
+
+#### VCF/BCF (Variant Code Format)
+*chr* *pos* *ID* *ref* *alt* *qual* *filter* *info* *format* *NA00001*
+
+##### INFO
+* NS: number of samples with data
+* DP: total depth
+* AF: allele frequency
+* AA: ancestral allele
+* DB: dbSNP membership, build 129
+* H2: HapMap2 membership
+
+##### FORMAT
+* GT: genotype
+* GQ: genotype quality
+* DP: read depth
+* HQ: haplotype quality
+
+e.g. Ref:g c a G g t
+	 Var:g c a A g t
+*chr* *pos* *ID* *ref* *alt* *qual* *filter* *info*
+14		4	 .     G     A     .      PASS    DP=100
+
+Ref: g c a G g t
+Var: g c a - g t
+*chr* *pos* *ID* *ref* *alt* *qual* *filter* *info*
+14		3	 .    AG     A     .      PASS    DP=100
+
+Ref: g c a G g t
+Var1:g c a - g t
+Var2:g c a A g t
+Var3:g c a Gtg t
+*chr* *pos* *ID* *ref*    *alt* 	*qual* *filter* *info*
+14		3	 .    AG     A,AA,AGT     .      PASS    DP=100
+
+## Commandline tools
+Excute command in background: `nohup [command] &`
+### SAMTOOLS
+1. view: samtools view -bT (fa file) (sam file) > (bam file)
+2. sort
+3. index
+4. merge
+5. mpileup
+
+### BEDTOOLS
+1. intersect (-wo,-wao,-wa)
+2. bedtobam/bamtobed
+
+## Bowtie
+
+

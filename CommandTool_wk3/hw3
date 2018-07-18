@@ -1,0 +1,113 @@
+https://d396qusza40orc.cloudfront.net/gencommand/gencommand_proj3_data.tar.gz
+
+tar -xvf gencommand_proj3_data.tar.gz
+
+Q1 How many sequences were in the genome?
+grep ">" wu_0.v7.fas |wc -l
+7
+
+Q2 What was the name of the third sequence in the genome file? Give the name only, without the “>” sign.
+grep ">" wu_0.v7.fas
+Chr3
+
+Q3 What was the name of the last sequence in the genome file? Give the name only, without the “>” sign.
+grep ">" wu_0.v7.fas
+mitochondria
+
+Q4 How many index files did the operation create?
+bowtie2-build -f wu_0.v7.fas wu_0
+6
+
+Q5 What is the 3-character extension for the index files created?
+bt2
+
+Q6 How many reads were in the original fastq file?
+bowtie2 -p 4 -x wu_0 wu_0_A_wgs.fastq -S exome.bt2.sam
+samtools view exome.bt2.sam | wc -l
+147354
+
+Q7 How many matches (alignments) were reported for the original (full-match) setting? Exclude lines in the file containing unmapped reads.
+all_aligned = 93780+43939 = 137719
+
+
+Q8 How many matches (alignments) were reported with the local-match setting? Exclude lines in the file containing unmapped reads.
+all_aligned = 84939+56105 = 141044
+
+Q9 How many reads were mapped in the scenario in Question 7?
+all_aligned = 93780+43939 = 137719
+
+Q10 How many reads were mapped in the scenario in Question 8?
+all_aligned = 84939+56105 = 141044
+
+Q11 How many reads had multiple matches in the scenario in Question 7? You can find this in the bowtie2 summary; note that by default bowtie2 only reports the best match for each read.​
+43939
+
+Q12 How many reads had multiple matches in the scenario in Question 8? Use the format above. You can find this in the bowtie2 summary; note that by default bowtie2 only reports the best match for each read.​
+56105
+
+Q13 How many alignments contained insertions and/or deletions, in the scenario in Question 7?
+samtools view exome.bt2.sam | cut -f6 | grep -c "[ID]"
+2782
+
+Q14 How many alignments contained insertions and/or deletions, in the scenario in Question 8?
+samtools view exome.bt2.loc.sam | cut -f6 | grep -c "[+-]"
+2614
+
+
+Q15 How many entries were reported for Chr3?
+samtools view -bT wu_0.v7.fas exome.bt2.sam > exome.bt2.bam
+samtools sort exome.bt2.bam exome.bt2.sorted
+grep -c "Chr3" exome.bt2.mpileup
+grep -c "Chr3" exome.bt2.vcf
+
+cat exome.bt2.vcf | grep -v "^#" | cut -f1 | grep -c "^Chr3"
+360295
+
+Q16 How many entries have ‘A’ as the corresponding genome letter?
+cut -f3 exome.bt2.mpileup|grep -c "A"
+cut -f4 exome.bt2.vcf|grep -c "A"
+cat exome.bt2.vcf|grep -v "^#" | cut -f4 | grep -cP "^A$"
+1150985
+
+
+Q17 How many entries have exactly 20 supporting reads (read depth)?
+cut -f4 exome.bt2.mpileup|grep -c "[2][0]"
+cut -f8 exome.bt2.vcf|grep -c "DP=20"
+cat exome.bt2.vcf|grep -v "^#" | grep -c "DP=20"
+1816
+
+
+
+Q18 How many entries represent indels?
+cut -f5 exome.bt2.mpileup|grep -c "[+-]"
+cat exome.bt2.vcf|grep -v "^#" | grep -c INDEL
+1972
+
+Q19 How many entries are reported for position 175672 on Chr1?
+cut -f1,2 exome.bt2.mpileup|grep "Chr1"|grep -c "175672"
+cut -f1,2 exome.bt2.vcf|grep "Chr1"|grep -c "175672"
+
+cat exome.bt2.vcf|grep -v "^#" | cut -f1,2 |grep "Chr1"|cut -f2| grep -c "^175672$"
+2
+
+Q20 How many variants are called on Chr3?
+samtools mpileup -g -f wu_0.v7.fas exome.bt2.sorted.bam > exome.bt2.bcf
+bcftools call -v -m -O z -o exome.bt2.vcf.gz exome.bt2.bcf
+zcat exome.bt2.vcf.gz| grep -v "^#" | cut -f1 |grep -c "Chr3"
+398
+
+Q21 How many variants represent an A->T SNP? If useful, you can use ‘grep –P’ to allow tabular spaces in the search term.
+zcat exome.bt2.vcf.gz | cut -f4,5 |grep -cP "^[A][\t][T]"
+392
+
+Q22 How many entries are indels?
+zcat exome.bt2.vcf.gz|cut -f4,5 |grep -cP "[ACGT][\t][ACGT]"
+exome.bt2.vcf.gz|grep -v "^#"|grep -c INDEL
+320
+
+Q23 How many entries have precisely 20 supporting reads (read depth)?
+zcat exome.bt2.vcf.gz | cut -f8 |grep -c "DP=20"
+2
+
+Q24 What type of variant (i.e., SNP or INDEL) is called at position 11937923 on Chr3?
+SNP
