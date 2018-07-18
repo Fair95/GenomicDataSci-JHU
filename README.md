@@ -286,7 +286,7 @@ Tags: A = character, i = integer, f = float, Z = string, H = hex string
 6. $ : end of read
 7. +[0-9]+[ACGTNacgtn]+ insertion in the reference(e.g. +3ACC)
 8. -[0-9]+[ACGTNacgtn]+ deletion in the reference(e.g. -2GG)
-9. > : reference skip
+9. \> : reference skip
 
 #### VCF/BCF (Variant Code Format)
 *chr* *pos* *ID* *ref* *alt* *qual* *filter* *info* *format* *NA00001*
@@ -305,22 +305,22 @@ Tags: A = character, i = integer, f = float, Z = string, H = hex string
 * DP: read depth
 * HQ: haplotype quality
 
-e.g. Ref:g c a G g t
-	 Var:g c a A g t
-*chr* *pos* *ID* *ref* *alt* *qual* *filter* *info*
-14		4	 .     G     A     .      PASS    DP=100
+e.g. Ref:g c a G g t  
+	 Var:g c a A g t  
+*chr* *pos* *ID* *ref* *alt* *qual* *filter* *info*  
+14		4	 .     G     A     .      PASS    DP=100  
 
-Ref: g c a G g t
-Var: g c a - g t
-*chr* *pos* *ID* *ref* *alt* *qual* *filter* *info*
-14		3	 .    AG     A     .      PASS    DP=100
+Ref: g c a G g t  
+Var: g c a - g t  
+*chr* *pos* *ID* *ref* *alt* *qual* *filter* *info*  
+14		3	 .    AG     A     .      PASS    DP=100  
 
-Ref: g c a G g t
-Var1:g c a - g t
-Var2:g c a A g t
-Var3:g c a Gtg t
-*chr* *pos* *ID* *ref*    *alt* 	*qual* *filter* *info*
-14		3	 .    AG     A,AA,AGT     .      PASS    DP=100
+Ref: g c a G g t  
+Var1:g c a - g t  
+Var2:g c a A g t  
+Var3:g c a Gtg t  
+*chr* *pos* *ID* *ref*    *alt* 	*qual* *filter* *info*  
+14		3	 .    AG     A,AA,AGT     .      PASS    DP=100  
 
 ## Commandline tools
 Excute command in background: `nohup [command] &`
