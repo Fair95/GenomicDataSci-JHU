@@ -204,14 +204,14 @@ Genome annotation = determine the precise location and structure (intervals, or 
 #### Basic format
 *chr* | *start* | *end* ---- 3 columns
 #### Extended format:
-*chr* | *start* | *end* | *end* | *name* | *score* | *strand* | *thick_start* | *thick_end* | *rgb* | *Block count* | *Block size* | *Block start* ---- 12 columns   
+*chr* | *start* | *end* | *name* | *score* | *strand* | *thick_start* | *thick_end* | *rgb* | *Block count* | *Block size* | *Block start* ---- 12 columns   
 
 0-based coordinates: A|C|A|G|C|T|A   
 					0 1 2 3 4 5 6 7  
 1-based coordinates: 1 2 3 4 5 6 7
 
 ### GTF (Genomic Transfer Format)
-*chr* *program* *feature* *start* *end* *strand* *frame* *gene_id*; *transcript_id* ---- 9 columns
+*chr* | *program* | *feature* | *start* | *end* | *strand* | *frame* | *gene_id*; | *transcript_id* ---- 9 columns
 
 * each interval feature taks one line
 * Column 9 can have additional attributes
@@ -219,12 +219,12 @@ Genome annotation = determine the precise location and structure (intervals, or 
 * Coordinates are 1-based
 
 ### GFF (Genomic Feature Format)
-*chr* *source* *feature* *start* *end* *strand* *frame* *ID*; (*Name* or *Parent*) ---- 9 columns
+*chr* | *source* | *feature* | *start* | *end* | *strand* | *frame* | *ID*; | (*Name* or *Parent*) ---- 9 columns
 
 ### SAM/BEM (Representation for alignments)
 #### Header
-@HD: header: VN:version SO:sorted or not
-@SQ: sequences: SN:chr_id LN:length
+@HD: header: VN:version SO:sorted or not  
+@SQ: sequences: SN:chr_id LN:length  
 @PG: program: ID:program_name VN:version CL:commanline used for parameter setting
 
 #### Alignments:
@@ -276,7 +276,7 @@ Tags: A = character, i = integer, f = float, Z = string, H = hex string
 * X: sequence mismatch
 
 #### mpileup format
-*chr* *pos* *ref* *nrds(depth)* ***bases*** *quals* *(optional)readpos*  ---- 6-7 columns
+*chr* | *pos* | *ref* | *nrds(depth)* | ***bases*** | *quals* | *(optional)readpos*  ---- 6-7 columns
 
 ***bases
 1. * : match, forward
@@ -290,7 +290,7 @@ Tags: A = character, i = integer, f = float, Z = string, H = hex string
 9. \> : reference skip
 
 #### VCF/BCF (Variant Code Format)
-*chr* *pos* *ID* *ref* *alt* *qual* *filter* *info* *format* *NA00001*
+*chr* | *pos* | *ID* | *ref* | *alt* | *qual* | *filter* | *info* | *format* | *NA00001*
 
 ##### INFO
 * NS: number of samples with data
@@ -308,20 +308,20 @@ Tags: A = character, i = integer, f = float, Z = string, H = hex string
 
 e.g. Ref:g c a G g t  
 	 Var:g c a A g t  
-*chr* *pos* *ID* *ref* *alt* *qual* *filter* *info*  
-14		4	 .     G     A     .      PASS    DP=100  
+*chr* | *pos* | *ID* | *ref* | *alt* | *qual* | *filter* | *info*  
+14	|	4	| .  |   G  |   A  |   .  |    PASS  |  DP=100  
 
 Ref: g c a G g t  
 Var: g c a - g t  
-*chr* *pos* *ID* *ref* *alt* *qual* *filter* *info*  
-14		3	 .    AG     A     .      PASS    DP=100  
+*chr* | *pos* | *ID* | *ref* | *alt* | *qual* | *filter* | *info*  
+14	|	3	| .  |  AG  |   A  |   .  |    PASS  |  DP=100  
 
 Ref: g c a G g t  
 Var1:g c a - g t  
 Var2:g c a A g t  
 Var3:g c a Gtg t  
-*chr* *pos* *ID* *ref*    *alt* 	*qual* *filter* *info*  
-14		3	 .    AG     A,AA,AGT     .      PASS    DP=100  
+*chr* | *pos* | *ID* | *ref* | *alt* | *qual* | *filter* | *info*    
+14	|	3	| .  |  AG  |   A,AA,AGT  |   .   |   PASS  |  DP=100  
 
 ## Commandline tools
 Excute command in background: `nohup [command] &`
