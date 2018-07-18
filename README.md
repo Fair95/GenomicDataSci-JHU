@@ -207,7 +207,7 @@ Genome annotation = determine the precise location and structure (intervals, or 
 *chr* *start* *end* *end* *name* *score* *strand* *thick_start* *thick_end* *rgb* *Block count* *Block size* *Block start* ---- 12 columns   
 
 0-based coordinates: A|C|A|G|C|T|A   
->0 1 2 3 4 5 6   7  
+&emsp &emsp &emsp &emsp 0 1 2 3 4 5 6 7  
 1-based coordinates: 1 2 3 4 5 6 7
 ### GTF (Genomic Transfer Format)
 *chr* *program* *feature* *start* *end* *strand* *frame* *gene_id*; *transcript_id* ---- 9 columns
