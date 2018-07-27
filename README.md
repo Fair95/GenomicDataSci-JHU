@@ -336,6 +336,23 @@ Excute command in background: `nohup [command] &`
 1. intersect (-wo,-wao,-wa)
 2. bedtobam/bamtobed
 
-## Bowtie
+## Bioconductor
+## GRanges
+1. A GRanges is a data structure for storing ggenomic intervals 
+2. Functionality in GenomicRanges and IRanges, they are fast and efficient
+3. Every R user dealing with genomic data needs to master GRanges
+
+
+
+
+## Statistics
+### Exploratory analysis
+### Nomrmalization and preprocessing
+#### Dimension Reduction
+Sigular value decomposition: U x D x V<sup>T</sup>
+
+### Statistical modeling
+### Statistical summarization
+
 
 
