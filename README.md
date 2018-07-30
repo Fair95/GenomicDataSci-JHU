@@ -349,9 +349,95 @@ Excute command in background: `nohup [command] &`
 ### Exploratory analysis
 ### Nomrmalization and preprocessing
 #### Dimension Reduction
-Sigular value decomposition: U x D x V<sup>T</sup>
+Sigular value decomposition: U x D x V<sup>T</sup>  
+* U -- left sigular vector/eigenarrays: column of U describe patterns across columns (arrays)
+* D -- sigular value:eigenvector: Sigular value decoposition -- explain the variation  
+percentage of variance explained of ith D value = D<sub>i</sub>^2/sum(D^2)
+* V<sup>T</sup> -- right sigular vector/eigengenes: columne of V<sup>T</sup> describe patterns across rows (genes)
+
+```r
+## remove the effect of row means which is the primary variance, we want to know the variance between samples and genes.
+edata_centered = edata - rowMeans(edata)
+svd1 = svd(edata_centered)
+plot(svd1$d,ylab = "Singular values",col = 2)
+plot(svd1$d^2/sum(svd1$d^2),ylab = "Percent Variance Explained", col =2)
+
+par(mfrow = c(1,2))
+plot(svd1$v[,1],col = 2, ylab = "1st PC")
+plot(svd1$v[,2],col = 2, ylab = "2nd PC")
+
+plot(svd1$v[,1],svd1$v[,2],ylab = "2nd PC",xlab = "1st PC",col = as.numeric(pdata$study))
+
+boxplot(svd1$v[,1] ~ pdata$study,border = c(1,2))
+points(svd1$v[,1] ~ jitter(as.numeric(pdata$study)), col = as.numeric(pdata$study))
+
+pc1 = prcomp(edata)
+edata_centered2 = t(t(edata)-colMeans(edata))
+svd2 = svd(edata_centered2)
+plot(pc1$rotation[,1],svd2$v[,1],col = 2)
+
+```
+#### Quantile Normalization
+Use to reomve techinical variability or batch effect within groups.
+Do **NOT** use when the variation is due to biological effect.
+[Fig.1 schematic of quantile normalization](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-015-0679-0)
+
+```r
+library(preprocessCore)
+colramp = colorRampPalette(c(3,"white",2))(20)
+plot(density(edata[,1]),col = colramp[1],lwd = 3,ylim = c(0,.30))
+for(i in 2:20)
+{
+	lines(density(edata[,i]),lwd = 3, col = colramp[i])
+}
+
+norm_edata = normalize.quantiles(as.matrix(edata))
+plot(density(norm_edata[,1]),col = colramp[1],lwd = 3,ylim = c(0,.30))
+for(i in 2:20)
+{
+	lines(density(norm_edata[,i]),lwd = 3, col = colramp[i])
+}
+
+svd1 = svd(norm_edata - rowMeans(norm_edata))
+plot(svd1$v[,1],svd1$v[,2], col = as.numeric(pdata$study))
+```
+
 
 ### Statistical modeling
+#### Linear Model
+```r
+library(Biobase)
+library(broom)
+
+edata = as.matrix(edata)
+
+lm1 = lm(edata[1,] ~ pdata$age)
+
+plot(pdata$age, edata[1,],col = 1)
+abline(lm1,col =2 ,lwd = 3)
+
+lm2 = lm(edata[1,] ~ pdata$gender)
+
+lm3 = lm(edata[1,]~pdata$age + pdata$gender)
+
+lm4 = lm(edata[1,]~pdata$age * pdata$gender)
+```
+
+#### Many Regression Model
+```r
+library(Biobase)
+library(limma)
+library(edge)
+
+mod = model.matrix( ~ pdata$strain)
+fit = lm.fit(mod, t(edata))
+
+hist(fit$coefficients[1,],braks = 100,col = 2, xlab = "intercept")
+
+edge_study = build_study(data = edata, grp = pdata$strain, adj.var = as.factor(pdata$lane.number))
+fit_edge = fit_models(edge_study)
+summary(fit_edge)
+```
 ### Statistical summarization
 
 

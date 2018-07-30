@@ -56,8 +56,8 @@ library(rafalib)
 set.seed(1235)
 
 # k-means clustering
-k_mean = kmeans(log2(edata+1),centers = 2)
-matplot(k_mean$centers)
+k_mean = kmeans(t(log2(edata+1)),centers = 2)
+#matplot(k_mean$centers)
 # Hierarchical clustering
 dist1 = dist(t(log2(edata+1)))
 hclust1 = hclust(dist1)
@@ -66,9 +66,9 @@ plot(hclust1,hang = -1)
 # Compare the results
 par(mfrow=c(1,3))
 myplclust(hclust1,labels=pdata$sample.id,lab.col = as.numeric(pdata$study),hang=0.1,xlab="",sub="")
-hclust1 = cutree(hclust1,2)
-myplclust(hclust1,labels=pdata$sample.id,lab.col = k_mean$cluster,hang=0.1,xlab="",sub="")
-myplclust(hclust1,labels=pdata$sample.id,lab.col = hclust1,hang=0.1,xlab="",sub="")
+hclust2 = cutree(hclust1,2)
+myplclust(hclust1,labels=pdata$sample.id,lab.col = as.numeric(k_mean$cluster),hang=0.1,xlab="",sub="")
+myplclust(hclust1,labels=pdata$sample.id,lab.col = as.numeric(hclust2),hang=0.1,xlab="",sub="")
 
 # dend = as.dendrogram(hclust1)
 # dend = color_labels(hclust1,2,1:2)
